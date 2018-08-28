@@ -16,65 +16,33 @@ produces:
 consumes:
 - application/json
 paths:
-  /cargo/getRoute/{origin}-{destination}/{fromDate}/{productCode}:
+  /operations/schedules/{origin}/{destination}/{fromDateTime}:
     get:
-      summary: Retrieve all flights
-      description: Retrieve a list of all possible flights (both direct and connecting)
-        between two airports on a given date. Routes are available for today and up
-        to days in the future.
-      operationId: CargoGetRouteFromDateProductCodeByOriginAndDestinationGet
-      x-api-path-slug: cargogetrouteorigindestinationfromdateproductcode-get
+      summary: Flight Schedules
+      description: Scheduled flights between given airports on a given date.
+      operationId: OperationsSchedulesFromDateTimeByOriginAndDestinationGet
+      x-api-path-slug: operationsschedulesorigindestinationfromdatetime-get
       parameters:
       - in: header
         name: Accept
         description: 'http header: application/json or application/xml (Acceptable
           values are: application/json, application/xml)'
-      - in: path
-        name: destination
-        description: 'Arrival airport : 3-letter IATA airport code, e'
-      - in: path
-        name: fromDate
-        description: Departure date in the local time of the departure airport
-      - in: path
-        name: origin
-        description: 'Departure Airport : 3-letter IATA airport code, e'
-      - in: path
-        name: productCode
-        description: 'Product code for requested service and specials : 3-letter eg:
-          YNZ'
-      responses:
-        200:
-          description: OK
-      tags:
-      - Cargo
-      - GetRoute
-      - Origin
-      - Destination
-      - FromDate
-      - ProductCode
-  /offers/seatmaps/{flightNumber}/{origin}/{destination}/{date}/{cabinClass}:
-    get:
-      summary: Seat Maps
-      description: Cabin layout and seat characteristics.
-      operationId: OffersSeatmapsDestinationDateCabinClassByFlightNumberAndOriginGet
-      x-api-path-slug: offersseatmapsflightnumberorigindestinationdatecabinclass-get
-      parameters:
-      - in: header
-        name: Accept
-        description: 'http header: application/json or application/xml (Acceptable
-          values are: application/json, application/xml)'
-      - in: path
-        name: cabinClass
-        description: 'Cabin class: M, E, C, F'
-      - in: path
-        name: date
-        description: Departure date (YYYY-MM-DD)
       - in: path
         name: destination
         description: Destination airport
+      - in: query
+        name: directFlights
+        description: Show only direct flights (false=0, true=1)
       - in: path
-        name: flightNumber
-        description: Flight number including carrier code and any suffix (e
+        name: fromDateTime
+        description: Local departure date and optionally departure time (YYYY-MM-DD
+          or YYYY-MM-DDTHH:mm)
+      - in: query
+        name: limit
+        description: Number of records returned per request
+      - in: query
+        name: offset
+        description: Number of records skipped
       - in: path
         name: origin
         description: Departure airport
@@ -82,13 +50,11 @@ paths:
         200:
           description: OK
       tags:
-      - Offers
-      - Seatmaps
-      - FlightNumber
+      - Operations
+      - Schedules
       - Origin
       - Destination
-      - Date
-      - CabinClass
+      - FromDateTime
   /operations/flightstatus/route/{origin}/{destination}/{date}:
     get:
       summary: Flight Status by Route

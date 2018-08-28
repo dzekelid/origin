@@ -17,6 +17,119 @@ produces:
 consumes:
 - application/json
 paths:
+  /operations/schedules/{origin}/{destination}/{fromDateTime}:
+    get:
+      summary: Flight Schedules
+      description: Scheduled flights between given airports on a given date.
+      operationId: OperationsSchedulesFromDateTimeByOriginAndDestinationGet
+      x-api-path-slug: operationsschedulesorigindestinationfromdatetime-get
+      parameters:
+      - in: header
+        name: Accept
+        description: 'http header: application/json or application/xml (Acceptable
+          values are: application/json, application/xml)'
+      - in: path
+        name: destination
+        description: Destination airport
+      - in: query
+        name: directFlights
+        description: Show only direct flights (false=0, true=1)
+      - in: path
+        name: fromDateTime
+        description: Local departure date and optionally departure time (YYYY-MM-DD
+          or YYYY-MM-DDTHH:mm)
+      - in: query
+        name: limit
+        description: Number of records returned per request
+      - in: query
+        name: offset
+        description: Number of records skipped
+      - in: path
+        name: origin
+        description: Departure airport
+      responses:
+        200:
+          description: OK
+      tags:
+      - Operations
+      - Schedules
+      - Origin
+      - Destination
+      - FromDateTime
+  /operations/flightstatus/route/{origin}/{destination}/{date}:
+    get:
+      summary: Flight Status by Route
+      description: Status of flights between a given origin and destination on a given
+        date.
+      operationId: OperationsFlightstatusRouteDateByOriginAndDestinationGet
+      x-api-path-slug: operationsflightstatusrouteorigindestinationdate-get
+      parameters:
+      - in: header
+        name: Accept
+        description: 'http header: application/json or application/xml (Acceptable
+          values are: application/json, application/xml)'
+      - in: path
+        name: date
+        description: Departure date (YYYY-MM-DD) in local time of departure airport
+      - in: path
+        name: destination
+        description: 3-letter IATA airport code (e
+      - in: query
+        name: limit
+        description: Number of records returned per request
+      - in: query
+        name: offset
+        description: Number of records skipped
+      - in: path
+        name: origin
+        description: 3-letter IATA airport (e
+      responses:
+        200:
+          description: OK
+      tags:
+      - Operations
+      - Flightstatus
+      - Route
+      - Origin
+      - Destination
+      - Date
+  /offers/seatmaps/{flightNumber}/{origin}/{destination}/{date}/{cabinClass}:
+    get:
+      summary: Seat Maps
+      description: Cabin layout and seat characteristics.
+      operationId: OffersSeatmapsDestinationDateCabinClassByFlightNumberAndOriginGet
+      x-api-path-slug: offersseatmapsflightnumberorigindestinationdatecabinclass-get
+      parameters:
+      - in: header
+        name: Accept
+        description: 'http header: application/json or application/xml (Acceptable
+          values are: application/json, application/xml)'
+      - in: path
+        name: cabinClass
+        description: 'Cabin class: M, E, C, F'
+      - in: path
+        name: date
+        description: Departure date (YYYY-MM-DD)
+      - in: path
+        name: destination
+        description: Destination airport
+      - in: path
+        name: flightNumber
+        description: Flight number including carrier code and any suffix (e
+      - in: path
+        name: origin
+        description: Departure airport
+      responses:
+        200:
+          description: OK
+      tags:
+      - Offers
+      - Seatmaps
+      - FlightNumber
+      - Origin
+      - Destination
+      - Date
+      - CabinClass
   /cargo/getRoute/{origin}-{destination}/{fromDate}/{productCode}:
     get:
       summary: Retrieve all flights
